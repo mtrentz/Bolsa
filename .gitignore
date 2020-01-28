@@ -4,3 +4,4 @@ __pycache__/
 hist.txt
 Figures/
 *.xls
+*.csv
