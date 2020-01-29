@@ -180,15 +180,8 @@ def plot_rentab(rent_dict, date_list, tosave=None):
         plt.close()
 
 
-def plot_fake_portfolio():
-    # todo trocar isso para plot bundle, levar como param [symb list] e dates,months etc.
-    # Finjo dai q essas ações são tidas desde t odo esse periodo
-    # Ver como que ficaria as proporções de dinheiro obviamente.
-    pass
-
-
 call = [0, 0, 0]
-port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
+port = stocks.get_portfolio(pf_reader.read_transactions('C_info.xls', 'C'))
 print(port)
 # TODO arrumar como to calculando rentabilidade, da problema quando tem valores negativos!!!!
 r, d = get_rentab(port, months=6)

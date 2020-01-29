@@ -55,6 +55,7 @@ def av_data_get(stocklist):
                                                       '7. dividend amount',
                                                       '8. split coefficient'])
                 daily_data = daily_data.rename(columns={'6. volume': '5. volume'})
+                return daily_data
                 daily_data = daily_data.rename(index=index_rename)
             # todo achar diferença entre value error de tempo e value error de nome de ação
             except:
@@ -69,7 +70,7 @@ def av_data_get(stocklist):
                 # Gets intraday data, fixes indexes
                 print(f'Fetching intraday data for {stock}. ')
                 intraday_data, intraday_meta_data = ts.get_intraday(symbol=f'{stock}.SA', outputsize='full')
-                intraday_data = intraday_data.rename(index=index_rename)
+                intraday_data = intraday_data.rename(index=index_rename)    # Fixes starting time
             except:
                 print("Waiting for API authorization.")
                 time.sleep(65)
@@ -88,4 +89,4 @@ def av_data_get(stocklist):
 
 
 # owned = list(stocks.mystocks.keys())
-# get_data(owned)
+# data = av_data_get(['ITUB3'])

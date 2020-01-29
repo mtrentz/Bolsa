@@ -5,8 +5,6 @@ import datetime as dt
 import av_data
 import stocks
 import matplotlib.ticker as ticker
-import matplotlib.mlab as mlab
-import matplotlib.cbook as cbook
 import matplotlib.pyplot as plt
 import pf_reader
 import numpy as np
@@ -45,6 +43,7 @@ def stock_get(symb, years=None, months=None, days=None, owned=None):
         # Import hist_save and call hist_save for the stock.
         av_data.av_data_get([symb])
     stockdata = pd.read_csv(path, index_col=0)
+    # Changes index to proper datetime
     stockdata.index = pd.to_datetime(stockdata.index)
     stockdata = remove_zeroes(stockdata)
 
@@ -84,11 +83,11 @@ def format_date(x, pos=None):
     Auxiliary in the task of not plotting days which there are no data for.
     """
     if isinstance(x, int):
-        return data.iloc[x].name.strftime('%Y-%m-%d 18:00')
+        return data.iloc[x].name.strftime('%Y-%m-%d')
     else:
         for index, number in enumerate(data_exes):
             if x == number:
-                return data['4. close'].index[index].strftime('%Y-%m-%d %H:%M')
+                return data['4. close'].index[index].strftime('%Y-%m-%d')
 
 
 def time_to_frac(date):
@@ -152,12 +151,16 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
     # intraday in between.
     i = 1
     global data_exes
+    print(data.index)
+    compare = data.index[0]
     for dateobj in data.index:
+        if dateobj.day != compare.day:
+            i += 1
         if dateobj.time() == dt.time(18, 0):
             data_exes.append(i)
-            i += 1
         else:
             data_exes.append(i + time_to_frac(dateobj))
+        compare = dateobj
 
     # Colorscheme
     c1 = '#22d1ee'
@@ -278,10 +281,9 @@ def plot_portfolio(pf, tosave=None):
 data = 0
 data_exes = []
 
-# TODO Arrumar o nó, acho que é no format date
 # port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))       # gets my portfolio
 # dataf = stock_get('B3SA3', owned=port)
-# plot_stock('EVEN3', owned=port, detail=port, tosave=True)
+# plot_stock('JBSS3', owned=port, detail=port)
 # plot_stock('B3SA3', owned=port, detail=port)
 # plot_portfolio(port, tosave=True)
 
