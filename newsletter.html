@@ -1,31 +1,3 @@
-import smtplib
-import html
-import mimetypes
-from email.headerregistry import Address
-import imghdr
-from email.utils import make_msgid
-from pathlib import Path
-import os
-from email.message import EmailMessage
-import base64
-from email.mime.base import MIMEBase
-from email import encoders
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-
-def send_mail(to_mail, positive, negative):
-    # Email Info
-    email_address = 'tz.bolsa@gmail.com'
-    email_password = 'v4it3fud3'
-
-    msg = MIMEMultipart()
-    msg['Subject'] = 'Suas Ações!'
-    msg['From'] = email_address
-    msg['to'] = to_mail
-
-    msg_content = MIMEText('Problemas na visualização?', 'plain', 'utf-8')
-    msg.attach(MIMEText('''\
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -123,9 +95,9 @@ def send_mail(to_mail, positive, negative):
                     <td style="direction:ltr;font-size:0px;padding:20px 0;padding-bottom:0;text-align:center;">
                       <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -216,9 +188,9 @@ def send_mail(to_mail, positive, negative):
                       </div>
                       <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
                     </td>
@@ -253,12 +225,12 @@ def send_mail(to_mail, positive, negative):
                     <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
                       <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
             <tr>
               <td
                  class="" width="600px"
               >
-          
+
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
       >
@@ -272,9 +244,9 @@ def send_mail(to_mail, positive, negative):
                               <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
                                 <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="vertical-align:top;width:600px;"
             >
@@ -292,7 +264,7 @@ def send_mail(to_mail, positive, negative):
          align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
       >
         <tr>
-      
+
               <td>
             <![endif]-->
                                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
@@ -310,7 +282,7 @@ def send_mail(to_mail, positive, negative):
                                                 </table>
                                                 <!--[if mso | IE]>
               </td>
-            
+
               <td>
             <![endif]-->
                                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
@@ -328,7 +300,7 @@ def send_mail(to_mail, positive, negative):
                                                 </table>
                                                 <!--[if mso | IE]>
               </td>
-            
+
               <td>
             <![endif]-->
                                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
@@ -346,7 +318,7 @@ def send_mail(to_mail, positive, negative):
                                                 </table>
                                                 <!--[if mso | IE]>
               </td>
-            
+
               <td>
             <![endif]-->
                                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="float:none;display:inline-table;">
@@ -364,7 +336,7 @@ def send_mail(to_mail, positive, negative):
                                                 </table>
                                                 <!--[if mso | IE]>
               </td>
-            
+
           </tr>
         </table>
       <![endif]-->
@@ -394,9 +366,9 @@ def send_mail(to_mail, positive, negative):
                                 </div>
                                 <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
                               </td>
@@ -408,15 +380,15 @@ def send_mail(to_mail, positive, negative):
           </td>
         </tr>
       </table>
-      
+
               </td>
             </tr>
-          
+
             <tr>
               <td
                  class="" width="600px"
               >
-          
+
       <table
          align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600"
       >
@@ -430,9 +402,9 @@ def send_mail(to_mail, positive, negative):
                               <td style="direction:ltr;font-size:0px;padding:20px 0;padding-top:0;text-align:center;">
                                 <!--[if mso | IE]>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                
+
         <tr>
-      
+
             <td
                class="" style="width:600px;"
             >
@@ -441,7 +413,7 @@ def send_mail(to_mail, positive, negative):
                                   <!--[if mso | IE]>
         <table  role="presentation" border="0" cellpadding="0" cellspacing="0">
           <tr>
-        
+
               <td
                  style="vertical-align:top;width:600px;"
               >
@@ -465,16 +437,16 @@ def send_mail(to_mail, positive, negative):
                                   </div>
                                   <!--[if mso | IE]>
               </td>
-              
+
           </tr>
           </table>
         <![endif]-->
                                 </div>
                                 <!--[if mso | IE]>
             </td>
-          
+
         </tr>
-      
+
                   </table>
                 <![endif]-->
                               </td>
@@ -486,10 +458,10 @@ def send_mail(to_mail, positive, negative):
           </td>
         </tr>
       </table>
-      
+
               </td>
             </tr>
-          
+
                   </table>
                 <![endif]-->
                     </td>
@@ -510,25 +482,3 @@ def send_mail(to_mail, positive, negative):
 </body>
 
 </html>
-    ''', 'html', 'utf-8'))
-
-    # TODO testar com varios attachments, mudar os cid numbers
-    imglist = ['rentability.png', 'portfolio.png', f'{positive}.png', f'{negative}.png']
-    i = 0
-    for img in imglist:
-        with open(f'Figures\\{img}', 'rb') as f:
-            mime = MIMEBase('image', 'png', filename=f'{img}')
-            mime.add_header('Content-Disposition', 'attachment', filename=f'{img}')
-            mime.add_header('X-Attachment-Id', f'{i}')
-            mime.add_header('Content-ID', f'<{i}>')
-            mime.set_payload(f.read())
-            encoders.encode_base64(mime)
-            msg.attach(mime)
-            i += 1
-
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(email_address, email_password)
-        smtp.send_message(msg)
-
-
-# send_mail('tz.bolsa@gmail.com', 'B3SA3', 'EVEN3')

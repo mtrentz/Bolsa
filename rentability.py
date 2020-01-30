@@ -181,6 +181,8 @@ def plot_rentab(ren, date_list, tosave=None):
 
 
 call = [0, 0, 0]
-port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-r, d = get_rentab(port, owned=port)
-plot_rentab(r, d)
+
+
+# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
+# r, d = get_rentab(port, owned=port)
+# plot_rentab(r, d)

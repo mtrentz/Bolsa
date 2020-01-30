@@ -2,7 +2,7 @@ import pf_reader
 import stocks
 import data_plot
 import rentability
-import news
+import newsletter
 import matplotlib.pyplot as plt
 
 
@@ -40,10 +40,10 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     data_plot.plot_stock(f'{worst}', years=years, months=months, days=days, owned=owned, tosave=True)
 
     # Sends mail
-    news.send_mail(to_mail, f'{best}', f'{worst}')
+    newsletter.send_mail(to_mail, f'{best}', f'{worst}')
 
 
-gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', days=5)
+gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', months=3)
 
 
 # pf = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))

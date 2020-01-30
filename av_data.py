@@ -104,4 +104,4 @@ nostock_msg = 'Invalid API call. Please retry or visit the documentation ' \
        'for TIME_SERIES_DAILY_ADJUSTED.'
 
 # owned = list(stocks.mystocks.keys())
-data = av_data_get(['ITUB3'])
+# data = av_data_get(['ITUB3'])

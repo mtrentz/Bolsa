@@ -214,7 +214,7 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
         ax.spines[spine].set_color(c2)
     fig.autofmt_xdate()
     plt.tight_layout()
-    plt.show()
+    # plt.show()
     if tosave:
         here = os.getcwd()
         path = here + r'\Figures'
@@ -280,10 +280,9 @@ def plot_portfolio(pf, tosave=None):
 data = 0
 data_exes = []
 
-port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))       # gets my portfolio
+# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
 # dataf = stock_get('B3SA3', owned=port)
 # plot_stock('JBSS3', owned=port, detail=port)
 # plot_stock('B3SA3', owned=port, detail=port)
 # plot_portfolio(port)
-
 # plot_stock('EVEN3', days=10)
