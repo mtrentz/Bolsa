@@ -62,7 +62,6 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
         pf_worth = 0
         for symb in portfolio:
             stock_qty = get_qty(pf, symb, date)
-            # Todo adicionar erro caso nao venha o df certo em dfs
             # todo testar com close, ver se da merda
             if stock_qty:
                 stock_price = dfs[symb].loc[date]['1. open']
@@ -107,7 +106,7 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
     for date in dates:
         now_worth = get_worth(pf, stock_data, date)
         patrimony.append(now_worth)
-        if len(movement) == 0:      # base case, first day both are same and rentability is zero
+        if len(movement) == 0:      # base case, first day both lists are equal and rentability is zero
             movement.append(now_worth)
         buffer = 0
         for symb in symb_list:
@@ -127,26 +126,21 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
     return rentab, dates
 
 
-def plot_rentab(rent_dict, date_list, tosave=None):
+def plot_rentab(ren, date_list, tosave=None):
     def format_date(x, pos=None):
         """
         Formats from a numbered index to a date string.
         Auxiliary in the task of not plotting days which there are no data for.
         """
-        if int(x) == 0:
-            return ''
-        for index, number in enumerate(exes):
-            if int(x) == number:
-                return date_list[number-1].strftime('%Y-%m-%d')
-            # return date_list[int(x)-1].strftime('%Y-%m-%d')
+        n = len(date_list)
+        x = np.clip(int(x + 0.5), 0, n - 1)
+        return date_list[x].strftime('%d/%m/%y')
 
-    # Separates as numered index, so all dates have the same space in-between
-    exes = [i for i in range(len(date_list)+1)]   # len+1 for 0 to be reserved as a start
-    ren = [1]       # Starts as 100%
-    for var in rent_dict['Portfolio']:
-        ren.append(var*ren[-1])
-    ren = np.asarray(ren)
-    ren = (ren - 1) * 100   # to percents
+    # # Separates as numered index, so all dates have the same space in-between
+    exes = [i for i in range(len(date_list))]
+    # Transforms rentab to percentages
+    ren = np.array(ren)
+    ren = (ren - 1) * 100
 
     # Colorscheme
     c1 = '#22d1ee'
@@ -161,17 +155,20 @@ def plot_rentab(rent_dict, date_list, tosave=None):
     ax.set_facecolor(c5)
     fig.set_facecolor(c4)
     ax.set_xlim(left=0)
-    ax.set_title(f'Lucro do Portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {call[2]} dia(s)', color='w')
+    if call[0] or call[1] or call[2]:
+        ax.set_title(f'Lucro do Portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {call[2]} dia(s)', color='w')
+    else:
+        ax.set_title(f'Lucro do Portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {len(exes)} dia(s)', color='w')
     ax.set_ylabel('Rendimento', color='w')
     ax.yaxis.set_major_formatter(ticker.PercentFormatter())
-    # ax.xaxis.set_major_locator(ticker.MultipleLocator(exes[-1]//13))
+    if len(date_list) <= 10:    # Guarantee not to have more xticks than points
+        ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
     ax.tick_params(labelcolor='white', color=c2)
     for spine in ax.spines:     # Sets graph outline to color
         ax.spines[spine].set_color(c2)
     fig.autofmt_xdate()
     plt.tight_layout()
-    # plt.show()
     if tosave:
         here = os.getcwd()
         path = here + r'\Figures'
@@ -185,7 +182,5 @@ def plot_rentab(rent_dict, date_list, tosave=None):
 
 call = [0, 0, 0]
 port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# print(port)
 r, d = get_rentab(port, owned=port)
-# todo fix plot
-# plot_rentab(r, d)
+plot_rentab(r, d)
