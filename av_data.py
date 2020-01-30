@@ -56,9 +56,11 @@ def av_data_get(stocklist):
                                                       '8. split coefficient'])
                 daily_data = daily_data.rename(columns={'6. volume': '5. volume'})
                 daily_data = daily_data.rename(index=index_rename)
-            # todo achar diferença entre value error de tempo e value error de nome de ação
-            except:
-                print("Waiting for API authorization.")
+            except Exception as e:
+                if str(e) == nostock_msg:
+                    return print('Invalid API call or invalid stock symbol')
+                if str(e) == calls_msg:
+                    print("Waiting for API authorization.")
                 time.sleep(65)
             else:
                 break
@@ -70,8 +72,11 @@ def av_data_get(stocklist):
                 print(f'Fetching intraday data for {stock}. ')
                 intraday_data, intraday_meta_data = ts.get_intraday(symbol=f'{stock}.SA', outputsize='full')
                 intraday_data = intraday_data.rename(index=index_rename)    # Fixes starting time
-            except:
-                print("Waiting for API authorization.")
+            except Exception as e:
+                if str(e) == nostock_msg:
+                    return print('Invalid API call or invalid stock symbol')
+                if str(e) == calls_msg:
+                    print("Waiting for API authorization.")
                 time.sleep(65)
             else:
                 break
@@ -87,5 +92,16 @@ def av_data_get(stocklist):
             print(f'Failed getting data for {stock}.')
 
 
+# Possible errors:
+# Too many calls
+calls_msg = 'Thank you for using Alpha Vantage! Our standard API call frequency ' \
+      'is 5 calls per minute and 500 calls per day. ' \
+      'Please visit https://www.alphavantage.co/premium/ ' \
+      'if you would like to target a higher API call frequency.'
+# Invalid stock
+nostock_msg = 'Invalid API call. Please retry or visit the documentation ' \
+       '(https://www.alphavantage.co/documentation/) ' \
+       'for TIME_SERIES_DAILY_ADJUSTED.'
+
 # owned = list(stocks.mystocks.keys())
-# data = av_data_get(['ITUB3'])
+data = av_data_get(['ITUB3'])
