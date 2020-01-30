@@ -58,6 +58,17 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
     owned(PORTFOLIO DICTIONARY): If any shows data since this stock was first bought, overrule others.
 
     """
+    def get_worth(portfolio, dfs, date):
+        pf_worth = 0
+        for symb in portfolio:
+            stock_qty = get_qty(pf, symb, date)
+            # Todo adicionar erro caso nao venha o df certo em dfs
+            # todo testar com close, ver se da merda
+            if stock_qty:
+                stock_price = dfs[symb].loc[date]['1. open']
+                pf_worth += stock_qty * stock_price
+        return pf_worth
+
     # Store to print it as graph title
     global call
     if years:
@@ -79,48 +90,40 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
         years = None
         months = None
         days = (tday - oldest_date).days
-        print('Plotting since first stock was purchased.')
-    if owned:
+        print('You had no stocks back then. Plotting since first stock was purchased.')
+    if owned is not None:
         years, months, days = None, None, None
 
     for symb in symb_list:
         data = data_plot.stock_get(symb, years=years, months=months, days=days, owned=owned)
         data = data.loc[data.index.hour == 18]      # Gets only daily values
         stock_data[symb] = data
-    dates = [date for date in stock_data[oldest_stock].index]  # Gets date from one stock, which is same for all
-    # List of list. One list for each stock, each stock being a list of rentability for each day.
-    rentab = {k: [0]*len(dates) for k in symb_list}
-    rentab['Portfolio'] = [0]*len(dates)
+    dates = [date for date in stock_data[oldest_stock].index]  # Gets dates from one stock, which is same for all
+
+    rentab = []
+    patrimony = []
+    movement = []
+
     for date in dates:
-        day_earned = 0
-        day_expense = 0
+        now_worth = get_worth(pf, stock_data, date)
+        patrimony.append(now_worth)
+        if len(movement) == 0:      # base case, first day both are same and rentability is zero
+            movement.append(now_worth)
+        buffer = 0
         for symb in symb_list:
-            start_qty = get_qty(pf, symb, date)
-            end_qty = start_qty
-            orders = day_orders(pf, symb, date)     # Returns None if there werent.
-            if start_qty or orders is not None:
-                open_price = stock_data[symb].loc[date]['1. open']
-                close_price = stock_data[symb].loc[date]['4. close']
-                bought = [0, 0.0]      # as (qty, amount of money)
-                sold = [0, 0.0]
-                if orders is not None:
-                    for order in orders:
-                        if order[3] == 'True':
-                            bought[0] += int(order[0])
-                            bought[1] += float(order[1])*float(order[0])
-                        else:
-                            sold[0] += int(order[0])
-                            sold[1] += float(order[1])*float(order[0])
-                    end_qty = start_qty + bought[0] - sold[0]
-                # Rentability calculated as (end_worth + sold)/(begining_worth + bought)
-                earned = (close_price*end_qty) + sold[1]
-                expense = (open_price*start_qty) + bought[1]
-                rentab[symb][dates.index(date)] = earned/expense
-                day_earned += earned
-                day_expense += expense
-            else:
-                rentab[symb][dates.index(date)] = 0
-        rentab['Portfolio'][dates.index(date)] = day_earned/day_expense
+            orders = day_orders(pf, symb, date)
+            if orders is not None:
+                for order in orders:
+                    if order[3] == 'True':
+                        buffer += float(order[1]) * float(order[0])
+                    else:
+                        buffer -= float(order[1]) * float(order[0])
+        movement.append(movement[-1] + buffer)
+    for i in range(len(patrimony)):
+        if movement[i] == 0:
+            rentab.append(1)
+        else:
+            rentab.append(patrimony[i]/movement[i])
     return rentab, dates
 
 
@@ -181,9 +184,8 @@ def plot_rentab(rent_dict, date_list, tosave=None):
 
 
 call = [0, 0, 0]
-port = stocks.get_portfolio(pf_reader.read_transactions('C_info.xls', 'C'))
-print(port)
-# TODO arrumar como to calculando rentabilidade, da problema quando tem valores negativos!!!!
-r, d = get_rentab(port, months=6)
-# TODO Fix owned
-plot_rentab(r, d)
+port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
+# print(port)
+r, d = get_rentab(port, owned=port)
+# todo fix plot
+# plot_rentab(r, d)

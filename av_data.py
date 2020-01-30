@@ -55,7 +55,6 @@ def av_data_get(stocklist):
                                                       '7. dividend amount',
                                                       '8. split coefficient'])
                 daily_data = daily_data.rename(columns={'6. volume': '5. volume'})
-                return daily_data
                 daily_data = daily_data.rename(index=index_rename)
             # todo achar diferença entre value error de tempo e value error de nome de ação
             except:

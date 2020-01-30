@@ -151,7 +151,6 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
     # intraday in between.
     i = 1
     global data_exes
-    print(data.index)
     compare = data.index[0]
     for dateobj in data.index:
         if dateobj.day != compare.day:
@@ -281,10 +280,10 @@ def plot_portfolio(pf, tosave=None):
 data = 0
 data_exes = []
 
-# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))       # gets my portfolio
+port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))       # gets my portfolio
 # dataf = stock_get('B3SA3', owned=port)
 # plot_stock('JBSS3', owned=port, detail=port)
 # plot_stock('B3SA3', owned=port, detail=port)
-# plot_portfolio(port, tosave=True)
+# plot_portfolio(port)
 
 # plot_stock('EVEN3', days=10)
