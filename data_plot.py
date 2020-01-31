@@ -208,7 +208,7 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
             raise Exception('Timespan not valid for short periods.')
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))     # Changes the ticks into date strings
 
-    ax.set_title(f'{symb}', color='w')
+    ax.set_title(f'Ações da {symb}', color='w', fontdict={'fontsize': 14})
     plt.ylabel('Preço (R$)', color='w')
     ax.tick_params(labelcolor='white', color=c2)
     for spine in ax.spines:     # Sets graph outline to color
@@ -221,8 +221,8 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
         path = here + r'\Figures'
         if not os.path.exists(path):
             os.makedirs('Figures')
-        plt.title('')
-        plt.ylabel('')
+        # plt.title('')
+        # plt.ylabel('')
         fig.savefig(f'{path}\\{symb}.png', facecolor='#071e3d')
         plt.close(fig)
         plt.close('all')
@@ -260,7 +260,8 @@ def plot_portfolio(pf, tosave=None):
     fig = plt.figure()
     fig.patch.set_facecolor('#071e3d')
     sorted_investments = sorted(investments)
-    plt.title(f'Investimento em Ações\n Total: R$ {sum(investments):,}0', color='w')
+    plt.title(f'Valor atualizado de seu portfolio\n Total: R$ {sum(investments):,}0',
+              color='w', fontdict={'fontsize': 14})
     plt.pie(sorted_investments, labels=sorted_symbols,
             wedgeprops={'edgecolor': 'w', 'linewidth': 1.25},
             textprops=dict(color='w'),

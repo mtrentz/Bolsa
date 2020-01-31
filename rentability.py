@@ -151,7 +151,7 @@ def plot_rentab(ren, date_list, tosave=None):
     c3 = '#1f4287'
     c4 = '#071e3d'
     c5 = '#0b3060'
-
+    # todo adicionar comparação com CDI
     fig, ax = plt.subplots(1, 1, figsize=(8, 4))
     ax.axhline(y=0, color=c3)
     ax.plot(exes, ren, color=c1)
@@ -159,9 +159,11 @@ def plot_rentab(ren, date_list, tosave=None):
     fig.set_facecolor(c4)
     ax.set_xlim(left=0)
     if call[0] or call[1] or call[2]:
-        ax.set_title(f'Lucro do Portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {call[2]} dia(s)', color='w')
+        ax.set_title(f'Lucro do seu portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {call[2]} dia(s)',
+                     color='w', fontdict={'fontsize': 14})
     else:
-        ax.set_title(f'Lucro do Portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {len(exes)} dia(s)', color='w')
+        ax.set_title(f'Lucro do seu portfolio em \n {call[0]} ano(s), {call[1]} mês(es), {len(exes)} dia(s)',
+                     color='w', fontdict={'fontsize': 14})
     ax.set_ylabel('Rendimento', color='w')
     ax.yaxis.set_major_formatter(ticker.PercentFormatter())
     if len(date_list) <= 10:    # Guarantee not to have more xticks than points
@@ -219,7 +221,8 @@ def plot_bars(money_dif_list, date_list, tosave=None):
 
     fig, ax = plt.subplots(1, 1, figsize=(8, 4))
     ax.bar(bar_months, bar_values, color=c1)
-    plt.title(f'Lucro em Reais', color='w')
+    plt.title(f'Lucro em Reais', color='w',
+              fontdict={'fontsize': 14})
     plt.ylabel('Valor (R$)', color='w')
     ax.axhline(y=0, color=c3)
     for spine in ax.spines:     # Sets graph outline to color
@@ -227,13 +230,24 @@ def plot_bars(money_dif_list, date_list, tosave=None):
     ax.set_facecolor(c5)
     fig.set_facecolor(c4)
     ax.tick_params(labelcolor='white', color=c2)
+    if len(bar_months) > 12:    # Just in case there are too many months, rotate label for readability
+        fig.autofmt_xdate()
+
+    if tosave:
+        here = os.getcwd()
+        path = here + r'\Figures'
+        if not os.path.exists(path):
+            os.makedirs('Figures')
+        # plt.title('')
+        fig.savefig(f'{path}\\bars.png', facecolor='#071e3d')
+        plt.close(fig)
+        plt.close('all')
 
 
 call = [0, 0, 0]
 
 
-port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-r, d, m = get_rentab(port, owned=port)
+# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
+# r, d, m = get_rentab(port, owned=port)
 # plot_rentab(r, d)
-
-plot_bars(m, d)
+# plot_bars(m, d, tosave=False)

@@ -33,7 +33,7 @@ def send_mail(to_mail, positive, negative):
     msg.attach(MIMEText(html.read(), 'html', 'utf-8'))
 
     # Attachments to show inline, numbered in imglist order. Shows as 'cid:i' on html file.
-    imglist = ['rentability.png', 'portfolio.png', f'{positive}.png', f'{negative}.png']
+    imglist = ['rentability.png', 'portfolio.png', 'bars.png', f'{positive}.png', f'{negative}.png']
     i = 0
     for img in imglist:
         with open(f'Figures\\{img}', 'rb') as f:
