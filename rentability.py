@@ -7,6 +7,7 @@ import os
 import stocks
 import numpy as np
 import pf_reader
+import locale
 
 
 def get_qty(pf, symb, start_date):
@@ -62,7 +63,7 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
         pf_worth = 0
         for symb in portfolio:
             stock_qty = get_qty(pf, symb, date)
-            # todo testar com close, ver se da merda
+            # todo testar com close, ver o histogram fecha com o da easy
             if stock_qty:
                 stock_price = dfs[symb].loc[date]['1. open']
                 pf_worth += stock_qty * stock_price
@@ -102,6 +103,7 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
     rentab = []
     patrimony = []
     movement = []
+    monetary_diff = []
 
     for date in dates:
         now_worth = get_worth(pf, stock_data, date)
@@ -123,7 +125,8 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
             rentab.append(1)
         else:
             rentab.append(patrimony[i]/movement[i])
-    return rentab, dates
+            monetary_diff.append(patrimony[i]-movement[i])
+    return rentab, dates, monetary_diff
 
 
 def plot_rentab(ren, date_list, tosave=None):
@@ -180,9 +183,57 @@ def plot_rentab(ren, date_list, tosave=None):
         plt.close()
 
 
+def plot_bars(money_dif_list, date_list, tosave=None):
+    # Go backwards on both lists, gets only complete months with exception to the latest. In each month,
+    # gets how much patromony varied.
+    date_list.reverse()
+    money_dif_list.reverse()
+
+    bar_values = []
+    bar_months = []
+    track_money = money_dif_list[0]
+    track_month = date_list[0].month
+    track_year = date_list[0].year
+    locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')      # Changes to PT-BR to have correct month names
+    for index, date in enumerate(date_list):
+        if date.year != track_year:
+            bar_months.append(date_list[index - 1].strftime('%b/%y').capitalize())
+            bar_values.append(track_money - money_dif_list[index - 1])
+            track_month = date.month
+            track_year = date.year
+            track_money = money_dif_list[index - 1]
+        elif date.month != track_month:
+            bar_months.append(date_list[index - 1].strftime('%b').capitalize())   # Gets month name abbrev.
+            bar_values.append(track_money - money_dif_list[index - 1])
+            track_month = date.month
+            track_money = money_dif_list[index - 1]
+    bar_values.reverse()
+    bar_months.reverse()
+
+    # Colorscheme
+    c1 = '#22d1ee'
+    c2 = '#278ea5'
+    c3 = '#1f4287'
+    c4 = '#071e3d'
+    c5 = '#0b3060'
+
+    fig, ax = plt.subplots(1, 1, figsize=(8, 4))
+    ax.bar(bar_months, bar_values, color=c1)
+    plt.title(f'Lucro em Reais', color='w')
+    plt.ylabel('Valor (R$)', color='w')
+    ax.axhline(y=0, color=c3)
+    for spine in ax.spines:     # Sets graph outline to color
+        ax.spines[spine].set_color(c2)
+    ax.set_facecolor(c5)
+    fig.set_facecolor(c4)
+    ax.tick_params(labelcolor='white', color=c2)
+
+
 call = [0, 0, 0]
 
 
-# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# r, d = get_rentab(port, owned=port)
+port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
+r, d, m = get_rentab(port, owned=port)
 # plot_rentab(r, d)
+
+plot_bars(m, d)

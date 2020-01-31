@@ -15,6 +15,7 @@ def send_mail(to_mail, positive, negative):
         negative: stock symb with worst performance
     """
     # Email Info
+    # todo esconder info
     email_address = 'tz.bolsa@gmail.com'
     email_password = 'v4it3fud3'
 
@@ -24,7 +25,7 @@ def send_mail(to_mail, positive, negative):
     msg['to'] = to_mail
 
     # todo add texto melhor
-    plain_msg = MIMEText('Problemas na visualização?', 'plain', 'utf-8')
+    plain_msg = MIMEText('Habilite html para visualizar e-mail', 'plain', 'utf-8')
     msg.attach(plain_msg)
 
     # html of the newsletter

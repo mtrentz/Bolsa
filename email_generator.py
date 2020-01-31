@@ -13,7 +13,7 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     pf = stocks.get_portfolio(pf_reader.read_transactions(excel_file, owner))
 
     # Calculate rentability. r = vectors of rentability of each stock and overall, d = date list
-    r, d = rentability.get_rentab(pf, years=years, months=months, days=days, owned=owned)
+    r, d, m = rentability.get_rentab(pf, years=years, months=1, days=days, owned=owned)
 
     # Plots and saves rentability graph of portfolio
     rentability.plot_rentab(r, d, tosave=True)

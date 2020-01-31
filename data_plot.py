@@ -207,6 +207,7 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
         except:
             raise Exception('Timespan not valid for short periods.')
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))     # Changes the ticks into date strings
+
     ax.set_title(f'{symb}', color='w')
     plt.ylabel('Preço (R$)', color='w')
     ax.tick_params(labelcolor='white', color=c2)
