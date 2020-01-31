@@ -130,6 +130,13 @@ def get_rentab(pf, years=None, months=None, days=None, owned=None):
 
 
 def plot_rentab(ren, date_list, tosave=None):
+    """
+    Plots rentability graph.
+    Parameters:
+        ren(list): rentability vector from get_rentab
+        date_list(list): date list from get_rentab
+        tosave(bool) = if True, saves image on /Figures
+    """
     def format_date(x, pos=None):
         """
         Formats from a numbered index to a date string.
@@ -185,11 +192,19 @@ def plot_rentab(ren, date_list, tosave=None):
         plt.close()
 
 
-def plot_bars(money_dif_list, date_list, tosave=None):
+def plot_bars(money_list, dates, owned=None, tosave=None):
+    """
+    From outputs of get_rentab, plots a bar chart for each month with how much portfolios value changed in BRL.
+    Params:
+        money_list(list): output from get_rentab.
+        dates(list): list of dates from get_rentab.
+        owned(Bool or portfolio dict): checks if exists, if so, shows on graph the first month even if there wesn't
+        data from the beginning.
+    """
     # Go backwards on both lists, gets only complete months with exception to the latest. In each month,
     # gets how much patromony varied.
-    date_list.reverse()
-    money_dif_list.reverse()
+    date_list = dates[::-1]
+    money_dif_list = money_list[::-1]
 
     bar_values = []
     bar_months = []
@@ -209,6 +224,14 @@ def plot_bars(money_dif_list, date_list, tosave=None):
             bar_values.append(track_money - money_dif_list[index - 1])
             track_month = date.month
             track_money = money_dif_list[index - 1]
+    # TODO aqui ta um jeito bem ruim, owned pode ser boolean, mas realmente nao checa se é o mês mais antigo,
+    #  simplesmente se for igual a True, ele vai contar o mês incompleto no inico. Rigorosidade no uso
+    #  fica em email_generator.py. Geralmente owned vai ser um portfolio ainda.
+    if owned:   # Guarantee to get the first month of joining stock market.
+        first_month = date_list[-1].strftime('%b').capitalize()
+        if first_month not in bar_months:
+            bar_months.append(first_month)
+            bar_values.append(track_money - money_dif_list[-1])
     bar_values.reverse()
     bar_months.reverse()
 
@@ -248,6 +271,6 @@ call = [0, 0, 0]
 
 
 # port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# r, d, m = get_rentab(port, owned=port)
+# r, d, m = get_rentab(port, days=32)
 # plot_rentab(r, d)
 # plot_bars(m, d, tosave=False)
