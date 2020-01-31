@@ -6,8 +6,17 @@ import newsletter
 import matplotlib.pyplot as plt
 
 
-# TODO nao tenho certeza q vai funcionar caso nao passe nenhum years etc..
 def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, owned=None, detail=None):
+    """
+    Prepares all the figures to be sent as mail in newsletter.py. For that gets persons portfolio,
+    rentability and finds the stocks which changed the most, up and down, in the input timespan.
+    Params:
+        to_mail(str): email string of recipient.
+        excel_file: File path of excel document from B3 or IBOVESPA with 'transação de ativos'
+        owner(str): Any tag, name or ID to identify owner of each transation in a CSV
+        years, months, days(int): Cummulative timespan to plot rentability and stock data.
+        detail(Bool): If true, override other timespan and plot data since the beginning of portfolio.
+    """
     # todo notar que ownede e detail aqui é bool
     # Fetching portfolio from excel file
     pf = stocks.get_portfolio(pf_reader.read_transactions(excel_file, owner))
@@ -49,16 +58,13 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     data_plot.plot_stock(f'{worst}', years=years, months=months, days=days, owned=owned, detail=detail, tosave=True)
 
     # Sends mail
-    # newsletter.send_mail(to_mail, f'{best}', f'{worst}')
+    newsletter.send_mail(to_mail, f'{best}', f'{worst}')
 
 
 gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', months=2, detail=True)
 # gen_mail('kochhann@anfip.org.br', 'C_info.xls', 'C', owned=True, detail=True)
 
-# todo achar um jeito de passar o timespan pras figuras, pra falar 'a que mais caiu em X dias foi...'
 # todo criar meu rcparam pra mais facil editar e mudar todos os graficos
-# todo talvez forçar pra mostrar o primeiro mes nos de bar, caso tenha sido o mes que a pessoa entrou na bolsa
-# todo mudar formatação do bar pra curtos periodos de tempo
 # pf = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
 
 
