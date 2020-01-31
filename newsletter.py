@@ -24,8 +24,8 @@ def send_mail(to_mail, positive, negative):
     msg['From'] = email_address
     msg['to'] = to_mail
 
-    # todo add texto melhor
-    plain_msg = MIMEText('Habilite html para visualizar e-mail', 'plain', 'utf-8')
+    plain_msg = MIMEText('Aqui está o resumo de seus investimentos! '
+                         '\nHabilite html para garantir boa visualização deste e-mail', 'plain', 'utf-8')
     msg.attach(plain_msg)
 
     # html of the newsletter

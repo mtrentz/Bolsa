@@ -113,11 +113,11 @@ def index_find(df, date):
 
 
 def remove_zeroes(df):
-    """ Adjust zeroes for close and low values (common bugs from API)"""
+    """ Remove columns where close value is 0 (common bugs from API)"""
     bugged_indexes = df.loc[df['4. close'] == 0].index
-    for index in bugged_indexes:
-        df.loc[index]['4. close'] = df.loc[index]['2. high']
-        df.loc[index]['3. low'] = df.loc[index]['2. high']
+    bugged_indexes = list(bugged_indexes)
+    bugged_indexes.reverse()
+    df.drop(bugged_indexes, inplace=True)
     return df
 
 
@@ -283,7 +283,7 @@ data = 0
 data_exes = []
 
 # port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# dataf = stock_get('B3SA3', owned=port)
+dataf = stock_get('EMAE4', months=5)
 # plot_stock('JBSS3', owned=port, detail=port)
 # plot_stock('B3SA3', owned=port, detail=port)
 # plot_portfolio(port)
