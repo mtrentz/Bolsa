@@ -6,6 +6,20 @@ import newsletter
 import matplotlib.pyplot as plt
 
 
+def rentability_ranking(pf, years=None, months=None, days=None, owned=None):
+    # Conferir pq isso subida/descida de reais, nao sei se é melhor que percentagem.
+    symbs = []
+    variations = []
+    stocks_data = data_plot.my_stocks_get(pf, years=years, months=months, days=days, owned=owned)
+    for symb in stocks_data:
+        symbs.append(symb)
+        final = stocks_data[symb].iloc[-1]['4. close']
+        first = stocks_data[symb].iloc[0]['1. open']
+        variations.append(final-first)
+    sorted_list = sorted(zip(variations, symbs))
+    return sorted_list
+
+
 def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, owned=None, detail=None):
     """
     Prepares all the figures to be sent as mail in newsletter.py. For that gets persons portfolio,
@@ -40,15 +54,7 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     data_plot.plot_portfolio(pf, tosave=True)
 
     # Finds stock which varied the most up and down
-    symbs = []
-    variations = []
-    stocks_data = data_plot.my_stocks_get(pf, years=years, months=months, days=days, owned=owned)
-    for symb in stocks_data:
-        symbs.append(symb)
-        final = stocks_data[symb].iloc[-1]['4. close']
-        first = stocks_data[symb].iloc[0]['1. open']
-        variations.append(final-first)
-    sorted_list = sorted(zip(variations, symbs))
+    sorted_list = rentability_ranking(pf, years=years, months=months, days=days, owned=owned)
     best = sorted_list[-1][1]   # stock symb which went the most up
     worst = sorted_list[0][1]   # stock which went down the most
 
@@ -61,10 +67,12 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     newsletter.send_mail(to_mail, f'{best}', f'{worst}')
 
 
-gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', months=2, detail=True)
+gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', days=10, detail=True)
 # gen_mail('kochhann@anfip.org.br', 'C_info.xls', 'C', owned=True, detail=True)
 
 # todo criar meu rcparam pra mais facil editar e mudar todos os graficos
+# todo lucro em reais nao aparece se o periodo é menor que o mês
+# todo passar o treco de achar ação que mais e menos rendeu pra uma funcao
 # pf = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
 
 
