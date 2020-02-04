@@ -58,7 +58,7 @@ r, d, m = rentability.get_rentab(pf, months=6)
 
 rentability.plot_rentab(r, d)
 ```
-<img src="https://i.imgur.com/PSfeyc9.png" alt="rentab" width="600"/>
+<img src="https://i.imgur.com/yRIpLno.png" alt="rentab" width="600"/>
 
 ```
 rentability.plot_bars(m, d)
