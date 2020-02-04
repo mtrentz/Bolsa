@@ -21,7 +21,7 @@ Adquira uma chave grátis para o uso do API [neste site](https://www.alphavantag
 
 Este projeto é baseado nas informações oferecidas pelo site oficial da [CEI](cei.b3.com.br). 
 Para obter as suas informações de compra e venda de ativos realize o login, siga em 'extrato e informativos', 
-'negociação de ativos, selecione preferencialmente o período máximo de seus investimentos e exporte como arquívo excel.
+'negociação de ativos', selecione preferencialmente o período máximo de seus investimentos e exporte como arquívo excel.
 
 ## Modo de uso
 Adicione a chave do API como argumento key="" na função TimeSeries em av_data.py.
