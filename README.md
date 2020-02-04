@@ -1,4 +1,4 @@
-# Análise de Portfolio na B3
+# Análise de Portfólio na B3
 Projeto para análise de ações individuais ou portfólios utilizando o API Alpha Vantage, além de envio 
 automático de email com informações pertinentes à rentabilidade.
 
@@ -27,7 +27,7 @@ selecione preferencialmente o período máximo de seus investimentos e exporte c
 Adicione a chave do API como argumento key="" na função TimeSeries em av_data.py.
 Preferencialmente salve o InfoCEI.xls no mesmo diretório dos outros arquivos.
 
-Para começar com análises um método é seguir por dashboard.py:
+Para começar com análises seguir por dashboard.py:
 
 Para criar seu portfolio, criando um OWNER_NAME_stocks.csv com todas suas transações:
 ```
@@ -38,5 +38,17 @@ Obtendo um pie-chart com suas ações atuais e valor atual do portfolio:
 ```
 data_plot.plot_portfolio(pf)
 ```
+<img src="https://i.imgur.com/wSfAlPT.png" alt="piechart" width="450"/>
 
+Tendo criado um portfolio(pf) é possível visualizar ações individuais com comentários de compras/vendas efetuadas:
+```
+data_plot.stock_plot('B3SA3', owned = pf, detail = pf)
+```
+<img src="https://i.imgur.com/vzzYNKV.png" alt="stock_detail" width="600"/>
+
+Sem um portfólio passando como parâmetros years, months, days como 'int' é possivel plotar progressão dos preços de uma ação
+em qualquer período de tempo.
+```
+data_plot.stock_plot('PETR4', years=1, months=4, days=0)
+```
 
