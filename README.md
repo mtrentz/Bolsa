@@ -47,7 +47,7 @@ data_plot.stock_plot('B3SA3', owned = pf, detail = pf)
 <img src="https://i.imgur.com/vzzYNKV.png" alt="stock_detail" width="600"/>
 
 Sem um portfólio passando como parâmetros years, months, days como 'int' é possivel plotar progressão dos preços de uma ação
-em qualquer período de tempo.
+em qualquer período de tempo com:
 ```
 data_plot.stock_plot('PETR4', years=1, months=4, days=0)
 ```
@@ -64,3 +64,16 @@ rentability.plot_rentab(r, d)
 rentability.plot_bars(m, d)
 ```
 <img src="https://i.imgur.com/8faF9ac.png" alt="profit" width="600"/>
+
+### Envio de Emails
+
+Para enviar emails automáticos por email_generator.py é necessário uma conta de e-mail com segurança reduzida. Tendo em mãos
+este email, forneça as informações de login em newsletter.py.
+
+O padrão do email mostrado aqui está em newsletter.html. As figuras a serem apresentadas são controladas por newsletter.py e
+em que período de tempo e ações a serem plotadas são geradas por email_generator.py.
+
+Exemplo de um newsletter:
+
+<img src="https://i.imgur.com/sd77rEC.png" alt="newsletter" width="450"/>
+
