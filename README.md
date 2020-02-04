@@ -58,7 +58,7 @@ r, d, m = rentability.get_rentab(pf, months=6)
 
 rentability.plot_rentab(r, d)
 ```
-<img src="https://i.imgur.com/yRIpLno.png" alt="rentab" width="600"/>
+<img src="https://i.imgur.com/PSfeyc9.png" alt="rentab" width="600"/>
 
 ```
 rentability.plot_bars(m, d)
@@ -75,5 +75,5 @@ em que período de tempo e ações a serem plotadas são geradas por email_gener
 
 Exemplo de um newsletter:
 
-<img src="https://i.imgur.com/sd77rEC.png" alt="newsletter" width="450"/>
+<img src="https://i.imgur.com/yRIpLno.png" alt="newsletter" width="450"/>
 
