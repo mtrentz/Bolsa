@@ -40,6 +40,8 @@ data_plot.plot_portfolio(pf)
 ```
 <img src="https://i.imgur.com/wSfAlPT.png" alt="piechart" width="450"/>
 
+### Calculo de Rentabilidade
+
 Tendo criado um portfolio(pf) é possível visualizar ações individuais com comentários de compras/vendas efetuadas:
 ```
 data_plot.stock_plot('B3SA3', owned = pf, detail = pf)
