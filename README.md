@@ -20,8 +20,8 @@ pip install matplotlib
 Adquira uma chave grátis para o uso do API [neste site](https://www.alphavantage.co/support/#api-key).
 
 Este projeto é baseado nas informações oferecidas pelo site oficial da [CEI](cei.b3.com.br). 
-Para obter as suas informações de compra e venda de ativos realize o login, siga em EXTRATO E INFORMATIVOS, NEGOCIAÇÃO DE ATIVOS,
-selecione preferencialmente o período máximo de seus investimentos e exporte como arquívo EXCEL.
+Para obter as suas informações de compra e venda de ativos realize o login, siga em 'extrato e informativos', 
+'negociação de ativos, selecione preferencialmente o período máximo de seus investimentos e exporte como arquívo excel.
 
 ## Modo de uso
 Adicione a chave do API como argumento key="" na função TimeSeries em av_data.py.
@@ -52,3 +52,15 @@ em qualquer período de tempo.
 data_plot.stock_plot('PETR4', years=1, months=4, days=0)
 ```
 
+Já tendo o portfólio é possível calculos de rentabilidade, como exemplo aqui é feito nos ultimos seis mêses:
+```
+r, d, m = rentability.get_rentab(pf, months=6)
+
+rentability.plot_rentab(r, d)
+```
+<img src="https://i.imgur.com/PSfeyc9.png" alt="rentab" width="600"/>
+
+```
+rentability.plot_bars(m, d)
+```
+<img src="https://i.imgur.com/8faF9ac.png" alt="profit" width="600"/>
