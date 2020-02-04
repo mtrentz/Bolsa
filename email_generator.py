@@ -67,8 +67,8 @@ def gen_mail(to_mail, excel_file, owner, years=None, months=None, days=None, own
     newsletter.send_mail(to_mail, f'{best}', f'{worst}')
 
 
-gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', days=10, detail=True)
-# gen_mail('kochhann@anfip.org.br', 'C_info.xls', 'C', owned=True, detail=True)
+# gen_mail('mateus.trentz@gmail.com', 'M_info.xls', 'M', days=10, detail=True)
+gen_mail('kochhann@anfip.org.br', 'C_info.xls', 'C', months=1, detail=True)
 
 # todo criar meu rcparam pra mais facil editar e mudar todos os graficos
 # todo lucro em reais nao aparece se o periodo é menor que o mês
