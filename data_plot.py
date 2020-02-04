@@ -283,9 +283,3 @@ def plot_portfolio(pf, tosave=None):
 data = 0
 data_exes = []
 
-# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# dataf = stock_get('EMAE4', months=5)
-# plot_stock('JBSS3', owned=port, detail=port)
-# plot_stock('B3SA3', months=2)
-# plot_portfolio(port)
-# plot_stock('EVEN3', days=10)

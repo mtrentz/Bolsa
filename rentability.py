@@ -269,8 +269,3 @@ def plot_bars(money_list, dates, owned=None, tosave=None):
 
 call = [0, 0, 0]
 
-
-# port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# r, d, m = get_rentab(port, months=3)
-# plot_bars(m, d)
-# plot_rentab(r, d)

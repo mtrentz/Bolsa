@@ -5,7 +5,7 @@ import datetime as dt
 
 
 def read_transactions(excelfile, owner):
-    """ Reads excel file from b3.com.br for (Transações de Ativos) """
+    """ Reads excel file from cei.b3.com.br for (Transações de Ativos) """
     # filename = owner + '_stocks.csv'
     pf_file = excelfile
     filename = owner + '_stocks.csv'
