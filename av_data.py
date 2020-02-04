@@ -5,8 +5,7 @@ import time
 import datetime as dt
 import re
 import stocks
-# TODO hide key
-ts = TimeSeries(key='MGD0H8ECIQCPHG96', output_format='pandas')
+ts = TimeSeries(key=os.environ.get('dbAV_KEY'), output_format='pandas')
 
 
 def index_rename(index):
@@ -40,7 +39,7 @@ def av_data_get(stocklist):
         for item in stocklist:
             stock_symbs.add(item)
     here = os.getcwd()
-    path = here + r'\stocks_data'
+    path = here + r'/stocks_data'
     if not os.path.exists(path):
         os.makedirs('stocks_data')
     for stock in stock_symbs:
@@ -103,5 +102,4 @@ nostock_msg = 'Invalid API call. Please retry or visit the documentation ' \
        '(https://www.alphavantage.co/documentation/) ' \
        'for TIME_SERIES_DAILY_ADJUSTED.'
 
-# owned = list(stocks.mystocks.keys())
-# data = av_data_get(['EMAE4'])
+

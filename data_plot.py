@@ -38,7 +38,7 @@ def stock_get(symb, years=None, months=None, days=None, owned=None):
     owned(PORTFOLIO DICTIONARY): If any shows data since this stock was first bought, overrule others.
     """
     here = os.getcwd()
-    path = here + f'\\stocks_data\\{symb}.csv'
+    path = here + f'/stocks_data/{symb}.csv'
     if not os.path.exists(path):
         # Import hist_save and call hist_save for the stock.
         av_data.av_data_get([symb])
@@ -69,8 +69,9 @@ def stock_get(symb, years=None, months=None, days=None, owned=None):
                 begin = order_dates[0].date()
     else:
         begin = tday - delta
-
-    last_date = stockdata.index[-1].date()
+    all_dates = stockdata.index
+    last_date = all_dates[-1]
+    last_date = last_date.date()
     if begin <= last_date:
         return stockdata.loc[begin:tday]
     else:
@@ -218,12 +219,12 @@ def plot_stock(symb, years=None, months=None, days=None, owned=None, detail=None
     # plt.show()
     if tosave:
         here = os.getcwd()
-        path = here + r'\Figures'
+        path = here + r'/Figures'
         if not os.path.exists(path):
             os.makedirs('Figures')
         # plt.title('')
         # plt.ylabel('')
-        fig.savefig(f'{path}\\{symb}.png', facecolor='#071e3d')
+        fig.savefig(f'{path}/{symb}.png', facecolor='#071e3d')
         plt.close(fig)
         plt.close('all')
         data_exes = []  # resets data_exes so you can plot multiple times in a row
@@ -270,11 +271,11 @@ def plot_portfolio(pf, tosave=None):
     # plt.show()
     if tosave:
         here = os.getcwd()
-        path = here + r'\Figures'
+        path = here + r'/Figures'
         if not os.path.exists(path):
             os.makedirs('Figures')
         # plt.title('')
-        fig.savefig(f'{path}\\portfolio.png', facecolor='#071e3d')
+        fig.savefig(f'{path}/portfolio.png', facecolor='#071e3d')
         plt.close(fig)
         plt.close('all')
 
@@ -285,6 +286,6 @@ data_exes = []
 # port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
 # dataf = stock_get('EMAE4', months=5)
 # plot_stock('JBSS3', owned=port, detail=port)
-# plot_stock('B3SA3', owned=port, detail=port)
+# plot_stock('B3SA3', months=2)
 # plot_portfolio(port)
 # plot_stock('EVEN3', days=10)

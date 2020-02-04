@@ -3,6 +3,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 
 
 def send_mail(to_mail, positive, negative):
@@ -15,9 +16,8 @@ def send_mail(to_mail, positive, negative):
         negative: stock symb with worst performance
     """
     # Email Info
-    # todo esconder info
-    email_address = 'tz.bolsa@gmail.com'
-    email_password = 'v4it3fud3'
+    email_address = os.environ.get('bolsaMAIL')
+    email_password = os.environ.get('bolsaPASS')
 
     msg = MIMEMultipart()
     msg['Subject'] = 'Suas Ações!'
@@ -36,7 +36,7 @@ def send_mail(to_mail, positive, negative):
     imglist = ['rentability.png', 'portfolio.png', 'bars.png', f'{positive}.png', f'{negative}.png']
     i = 0
     for img in imglist:
-        with open(f'Figures\\{img}', 'rb') as f:
+        with open(f'Figures/{img}', 'rb') as f:
             mime = MIMEBase('image', 'png', filename=f'{img}')
             mime.add_header('Content-Disposition', 'attachment', filename=f'{img}')
             mime.add_header('X-Attachment-Id', f'{i}')

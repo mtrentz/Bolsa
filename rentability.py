@@ -183,12 +183,12 @@ def plot_rentab(ren, date_list, tosave=None):
     plt.tight_layout()
     if tosave:
         here = os.getcwd()
-        path = here + r'\Figures'
+        path = here + r'/Figures'
         if not os.path.exists(path):
             os.makedirs('Figures')
         # ax.set_ylabel('')
         # ax.set_title('')
-        fig.savefig(f'{path}\\rentability.png', facecolor=c4)
+        fig.savefig(f'{path}/rentability.png', facecolor=c4)
         plt.close()
 
 
@@ -211,7 +211,7 @@ def plot_bars(money_list, dates, owned=None, tosave=None):
     track_money = money_dif_list[0]
     track_month = date_list[0].month
     track_year = date_list[0].year
-    locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')      # Changes to PT-BR to have correct month names
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')      # Changes to PT-BR to have correct month names
     for index, date in enumerate(date_list):
         if date.year != track_year:
             bar_months.append(date_list[index - 1].strftime('%b/%y').capitalize())
@@ -258,11 +258,11 @@ def plot_bars(money_list, dates, owned=None, tosave=None):
 
     if tosave:
         here = os.getcwd()
-        path = here + r'\Figures'
+        path = here + r'/Figures'
         if not os.path.exists(path):
             os.makedirs('Figures')
         # plt.title('')
-        fig.savefig(f'{path}\\bars.png', facecolor='#071e3d')
+        fig.savefig(f'{path}/bars.png', facecolor='#071e3d')
         plt.close(fig)
         plt.close('all')
 
@@ -271,6 +271,6 @@ call = [0, 0, 0]
 
 
 # port = stocks.get_portfolio(pf_reader.read_transactions('M_info.xls', 'M'))
-# r, d, m = get_rentab(port, days=32)
+# r, d, m = get_rentab(port, months=3)
+# plot_bars(m, d)
 # plot_rentab(r, d)
-# plot_bars(m, d, tosave=False)
