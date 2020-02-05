@@ -21,7 +21,7 @@ Adquira uma chave grátis para o uso do API [neste site](https://www.alphavantag
 
 Este projeto é baseado nas informações oferecidas pelo site oficial da [CEI](cei.b3.com.br). 
 Para obter as suas informações de compra e venda de ativos realize o login, siga em 'extrato e informativos', 
-'negociação de ativos', selecione preferencialmente o período máximo de seus investimentos e exporte como arquívo excel.
+'negociação de ativos', selecione preferencialmente o período máximo de seus investimentos e exporte como arquivo excel.
 
 ## Modo de uso
 Adicione a chave do API como argumento key="" na função TimeSeries em av_data.py.
@@ -34,13 +34,13 @@ Para criar seu portfolio, criando um OWNER_NAME_stocks.csv com todas suas transa
 pf = stocks.get_portfolio(pf_reader.read_transactions(EXCEL_FILE_PATH, OWNER_NAME))
 ```
 
-Obtendo um pie-chart com suas ações atuais e valor atual do portfolio:
+Obtendo um pie-chart com suas ações atuais e valor atual do portfólio:
 ```
 data_plot.plot_portfolio(pf)
 ```
 <img src="https://i.imgur.com/wSfAlPT.png" alt="piechart" width="450"/>
 
-### Calculo de Rentabilidade
+### Cálculo de Rentabilidade
 
 Tendo criado um portfolio(pf) é possível visualizar ações individuais com comentários de compras/vendas efetuadas:
 ```
@@ -48,13 +48,13 @@ data_plot.stock_plot('B3SA3', owned = pf, detail = pf)
 ```
 <img src="https://i.imgur.com/vzzYNKV.png" alt="stock_detail" width="600"/>
 
-Sem um portfólio passando como parâmetros years, months, days como 'int' é possivel plotar progressão dos preços de uma ação
+Sem um portfólio, passando como parâmetros years, months, days (int) é possivel plotar a progressão dos preços de uma ação
 em qualquer período de tempo com:
 ```
 data_plot.stock_plot('PETR4', years=1, months=4, days=0)
 ```
 
-Já tendo o portfólio é possível calculos de rentabilidade, como exemplo aqui é feito nos ultimos seis mêses:
+Já tendo o portfólio é possível cálculos de rentabilidade, como exemplo aqui é feito nos ultimos seis mêses:
 ```
 r, d, m = rentability.get_rentab(pf, months=6)
 
